@@ -3,10 +3,12 @@
 <h1>Diabetic Retinopathy Predictor</h1>
 <form method = "POST" enctype="multipart/form-data">
 <input type="submit" name="butTrain" value="Train">
+<br>
 <input type="file" id="file" name="file" accept="image/*">
 <br>
 <input type="submit" name="button" value="Predict">
 </form>
+{{data|safe}}
 <div id= "output_picture"></div>
 <div id = "output_value"></div>
 </body>

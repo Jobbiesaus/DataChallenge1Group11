@@ -60,7 +60,6 @@ def home():
     X_test = testdata["X_test"]
     y_test = testdata["Y_test"]
 
-    
     tensorboard = TensorBoard(log_dir = 'dir_1')
 
    
@@ -69,14 +68,15 @@ def home():
     if request.method == 'POST': 
         if "butTrain" in request.form:
              model().fit(X_train, y_train, batch_size=32, epochs=1, validation_data = (X_test, y_test), callbacks = [tensorboard])
-             return render_template("WebsiteEyeDoctor.html")
+             return render_template("WebsiteEyeDoctor.html",data = None)
         elif "button" in request.form:
             data = X_test[0]
             file = request.files['file']
+
             
             if file:
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['./'], filename))
+                file.save(filename)
                 image = Image.open(filename)
                 data = asarray(image)
 
@@ -87,9 +87,9 @@ def home():
             prediction = model().predict(X_test)
             best = max(prediction[0])
             final = np.where(best)
-            return render_template("test.html", data = final[0])
+            return render_template("WebsiteEyeDoctor.html", data = final[0]+1)
     else:
-        return render_template("WebsiteEyeDoctor.html")
+        return render_template("WebsiteEyeDoctor.html", data = None)
 
 if __name__ == "__main__":
     app.run(debug=True)
